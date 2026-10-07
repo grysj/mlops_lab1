@@ -1,0 +1,40 @@
+import os
+import argparse
+from dotenv import load_dotenv
+from settings import Settings
+import yaml
+
+
+def export_envs(environment: str = "dev") -> None:
+    ...  # implement me!
+    filepath = f"config/.env.{environment}"
+    load_dotenv(dotenv_path=filepath)
+
+    # there should have been secrets.{dev|test|prod}.yaml so we potentially don't mix this up in the
+    # future but whatever
+    filepath_haslo = "secrets.yaml"
+    with open(filepath_haslo, "r") as file:
+        secrets = yaml.safe_load(file)
+        haslo = secrets.get("has")
+        os.environ["HASLO"] = haslo
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Load environment variables from specified.env file."
+    )
+    parser.add_argument(
+        "--environment",
+        type=str,
+        default="dev",
+        help="The environment to load (dev, test, prod)",
+    )
+    args = parser.parse_args()
+
+    export_envs(args.environment)
+
+    settings = Settings()
+
+    print("APP_NAME: ", settings.APP_NAME)
+    print("ENVIRONMENT: ", settings.ENVIRONMENT)
+    print("HASLO: ", settings.HASLO)
