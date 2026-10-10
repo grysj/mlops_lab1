@@ -12,10 +12,10 @@ def export_envs(environment: str = "dev") -> None:
 
     # there should have been secrets.{dev|test|prod}.yaml so we potentially don't mix this up in the
     # future but whatever
-    filepath_haslo = "secrets.yaml"
+    filepath_haslo = "./secrets.yaml"
     with open(filepath_haslo, "r") as file:
         secrets = yaml.safe_load(file)
-        haslo = secrets.get("has")
+        haslo = secrets.get("HASLO", "")
         os.environ["HASLO"] = haslo
 
 

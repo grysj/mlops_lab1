@@ -11,7 +11,7 @@ class Settings(BaseSettings):
 
     @field_validator("ENVIRONMENT")
     @classmethod
-    def validate_environment(cls, value, haslo):
+    def validate_environment(cls, value):
         # implement me!
         # prepare validator that will check whether the value of ENVIRONMENT is in (dev, test, prod)
         if value in ("dev", "test", "prod"):
@@ -21,7 +21,7 @@ class Settings(BaseSettings):
 
     @field_validator("HASLO")
     @classmethod
-    def validate_haslo(cls, value, values):
+    def validate_haslo(cls, value):
         if value:
             return value
         else:
